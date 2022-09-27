@@ -60,7 +60,11 @@
     <script>
       // we will listen for the keydown event and run the functionality below passing in e as a parameter
       window.addEventListener("keydown", function (e) {
-        console.log("Event");
+        // declare a constant audio in local memory and set it equal to the audio data key based on the keydown that is pressed"
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        // if audio is null, return.. basically stop running the function all together.
+        if (!audio) return;
+        audio.play();
       });
     </script>
   </body>
