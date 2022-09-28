@@ -34,6 +34,7 @@ html {
 }
 
 .playing {
+  /* Scale it up by 1.1 on the transition/keyDown and add a border color and box-shadow */
   transform: scale(1.1);
   border-color: #ffc600;
   box-shadow: 0 0 1rem #ffc600;
