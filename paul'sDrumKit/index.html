@@ -73,11 +73,10 @@
         // audio[data-key] is called an attribute selector and we use the back ticks to determine which key was pressed
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         // declare a constant key in local memory and set it equal to the element who has the name of class
-        console.log(audio);
         const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
         // if audio is null, return.. basically stop running the function all together.
         if (!audio) return;
-        //rewind the audio to the start immediately after keydown event... without this it wouldn't play over and over again well on each press.
+        //rewind to the start
         audio.currentTime = 0;
         // the play method starts playing the current audio or video
         audio.play();
@@ -86,21 +85,17 @@
       function removeTransition(e) {
         //if the property name of the key is not a transform, skip it
         if (e.propertyName !== "transform") return;
-        // this refers to the data-key which is what is being referenced and called against which is key.
-        console.log(this);
         this.classList.remove("playing");
       }
 
       // declare a constant keys in global memory and set it equal to all elements of class key. An array is returned.
       const keys = document.querySelectorAll(".key");
-      // for each key in the keys array, add an event listener of type transitionend and when it is ending, remove the transition using the function removeTransition
-      // when we have an array, we must explicitly loop over them.
+      // for each key in the keys array, add an event listener by the name of transitionend and when it is ending, remove the transition using the funtion removeTransition
       keys.forEach((key) =>
         // listen for the end of the transition event, upon completion, call the removeTransition function.
         key.addEventListener("transitionend", removeTransition)
       );
       // on keydown event, call the playSound function that is declared above
-
       window.addEventListener("keydown", playSound);
     </script>
   </body>
