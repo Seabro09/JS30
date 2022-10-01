@@ -33,21 +33,37 @@
 
       <label for="base">Base Color</label>
       <input id="base" type="color" name="base" value="#ffc600" />
+
+      <label for="Height">Height:</label>
+      <input
+        id="height"
+        type="range"
+        name="height"
+        min="250"
+        max="750"
+        value="10"
+        data-sizing="px"
+      />
     </div>
 
     <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" />
 
+    <br />
+
+    \
     <style>
       :root {
         --base: #ffc600;
         --spacing: 10px;
         --blur: 10px;
+        --height: 500px;
       }
 
       img {
         padding: var(--spacing);
         background: var(--base);
         filter: blur(var(--blur));
+        height: var(--height);
       }
 
       .h1 {
@@ -73,12 +89,15 @@
     </style>
 
     <script>
-      // querySelectorAll returns a node list, not a standard array. (has less methods)
+      // querySelectorAll returns a node list, not a standard array. (has less methods) can be converted to array, but won't need that here.
+      // returns a node list of all the input elements within the div element of class .controls
       const inputs = document.querySelectorAll(".controls input");
+
+      const image = document.querySelector("#image");
 
       function handleUpdate() {
         // declare a constant in local memory and set it equal to the suffix "px"
-        // this is the object of input, dataset is the data dash, sizing is the key, px is the value that is put in the constant suffix
+        // this is the object of input element, dataset is the data dash, sizing is the key, px is the value that is put in the constant suffix
         // the or nothing is for some that don't have sizing. the color hexcode for example
         const suffix = this.dataset.sizing || "";
         document.documentElement.style.setProperty(
@@ -93,6 +112,8 @@
       inputs.forEach((input) =>
         input.addEventListener("mousemove", handleUpdate)
       );
+
+      image.forEach((input) => input.addEventListene("change", handleUpdate));
     </script>
   </body>
 </html>
