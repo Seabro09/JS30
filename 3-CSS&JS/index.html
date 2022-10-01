@@ -41,7 +41,7 @@
         name="height"
         min="250"
         max="750"
-        value="10"
+        value="500"
         data-sizing="px"
       />
     </div>
@@ -92,8 +92,6 @@
       // returns a node list of all the input elements within the div element of class .controls
       const inputs = document.querySelectorAll(".controls input");
 
-      const image = document.querySelector("#image");
-
       function handleUpdate() {
         // declare a constant in local memory and set it equal to the suffix "px"
         // this is the object of input element, dataset is the data dash, sizing is the key, px is the value that is put in the constant suffix
@@ -111,8 +109,6 @@
       inputs.forEach((input) =>
         input.addEventListener("mousemove", handleUpdate)
       );
-
-      image.forEach((input) => input.addEventListene("change", handleUpdate));
     </script>
   </body>
 </html>
