@@ -102,7 +102,10 @@
 
       // 7. sort Exercise
       // Sort the people alphabetically by last name
-
+      const lastName = people.sort((a) => {
+        return a.split(",");
+      });
+      console.log(lastName);
       // 8. Reduce Exercise
       // Sum up the instances of each of these
       const data = [
