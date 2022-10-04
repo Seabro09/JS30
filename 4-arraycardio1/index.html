@@ -74,38 +74,75 @@
       // Array.prototype.filter()
       // 1. Filter the list of inventors for those who were born in the 1500's
       // filters the array based on if something is true or not
+      //remember, filter can take multiple items, and return less based on criteria
       const withinFifteen = inventors.filter((obj) => {
-        return obj.year > 1499 && obj.year < 1600;
+        return obj.year >= 1500 && obj.year < 1600;
       });
-      console.log(withinFifteen);
+      console.table(withinFifteen);
       // Array.prototype.map()
       // 2. Give us an array of the inventors first and last names
-      // returns an array based on the criteria you give
-      const names = inventors.map((obj) => [obj.first, obj.last]);
-      console.log(names);
+      // remember, map will always return the same amount of items, just in a different way
+      const names = inventors.map((obj) => obj.first + " " + obj.last);
+      console.table(names);
       // Array.prototype.sort()
       // 3. Sort the inventors by birthdate, oldest to youngest
+      // sort looks at the first two elements first, if a - b is negative, a is first.. if a - b is positive, b is first. It then continues on until all elements are evaluated.
       const birthdate = inventors.sort((a, b) => {
-        return b.year - a.year;
+        return a.year - b.year;
       });
-      console.log(birthdate);
+      console.table(birthdate);
       // Array.prototype.reduce()
       // 4. How many years did all the inventors live all together?
+      // reduce allows you to build something on each element of array
+      // can return separate array or object if we want
+      // here we will have an accumulator (acc) and a current inventor (curr)
+      //we set the acc to 0 and return the acc + the years of each inventors life
+      const yearsTogether = inventors.reduce((acc, curr) => {
+        return acc + curr.passed - curr.year;
+      }, 0);
+
+      console.log(yearsTogether);
 
       // 5. Sort the inventors by years lived
+      // if a guy - b guy is negative, a guy first, if positive, b guy first.
       const yearsLivedSort = inventors.sort((a, b) => {
         return Math.min(a.passed - a.year) - Math.max(b.passed - b.year);
       });
-      console.log(yearsLivedSort);
+      console.table(yearsLivedSort);
+
       // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
       // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+      // here we will need to work on query selecting dom elements
+      // we can call that querySelector on any dom element, doesn't have to be document
+      // declare a constant category and set it equal to the elements inside the class mw-category
+      // const category = document.querySelector(".mw-category");
+      // // declare a const links and set it equal to all of the links within the class mw-category.
+      // // we must use the spread operator to put everything inside the nodelist into an array
+      // const links = Array.from(category.querySelectorAll("a"));
+
+      // const de = links
+      // // return all of the textContent, then filter if it includes "de"
+      //   .map((link) => link.textContent)
+      //   .filter((streetName) => streetName.includes("de"));
 
       // 7. sort Exercise
       // Sort the people alphabetically by last name
-      const lastName = people.sort((a) => {
-        return a.split(",");
+      const alpha = people.sort((a, b) => {
+        const [lasta, firsta] = a.split(", ");
+        const [lastb, firstb] = b.split(", ");
+        return lasta > lastb ? 1 : -1;
       });
-      console.log(lastName);
+
+      console.log(alpha);
+
+      const beta = people.sort();
+
+      console.log(beta);
+
+      const gamma = people.sort().reverse();
+
+      console.log(gamma);
+
       // 8. Reduce Exercise
       // Sum up the instances of each of these
       const data = [
@@ -124,6 +161,40 @@
         "car",
         "truck",
       ];
+      const groupBy = function (arr) {
+        return arr.reduce((a, b) => {
+          // either
+          // a[b] = a[b] + 1 || 1;
+          // return a;
+          if (!a[b]) {
+            a[b] = 1;
+          } else {
+            a[b] = a[b] + 1;
+          }
+          return a;
+        }, {});
+      };
+
+      console.log(groupBy(data));
+
+      const groupBy2 = data.reduce((a, b) => {
+        a[b] = a[b] + 1 || 1;
+        return a;
+      }, {});
+
+      console.log(groupBy2);
+      // let group = function(arr, criteria) {
+      //   return arr.reduce(function (obj, item) {
+      //     let key = typeof criteria === 'function' ? criteria(item) : item[criteria];
+      //     if (!obj.hasOwnProperty(key)) {
+      //       obj[key] = [];
+
+      //     obj[key].push(item);
+
+      //     return obj;
+      //     }
+      //   })
+      // }
     </script>
   </body>
 </html>
