@@ -80,7 +80,6 @@
         margin: 0;
         width: 100%;
         transition: transform 0.5s;
-        border: 1px solid red;
         flex: 1 0 auto;
         display: flex;
         justify-content: center;
@@ -155,8 +154,17 @@
       function toggleOpen() {
         this.classlist.toggle("open");
       }
+
+      function toggleActive() {
+        if (e.propertyName.includes("flex")) {
+          this.classlist.toggle();
+        }
+      }
       // we don't add parens for toggleOpen function because that would mean to load on page load.
       panels.forEach((panel) => panel.addEventListener("click", toggleOpen));
+      panels.forEach((panel) =>
+        panel.addEventListener("transitionend", toggleActive)
+      );
     </script>
   </body>
 </html>
