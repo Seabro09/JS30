@@ -33,6 +33,7 @@
       .panels {
         min-height: 100vh;
         overflow: hidden;
+        /* flex container */
         display: flex;
       }
 
@@ -54,6 +55,7 @@
         flex: 1;
         justify-content: center;
         /* we need to make this a flex container for our items to go center vertically and horizontally */
+        /* This is an example of nesting flexbox */
         display: flex;
         /* will center them in the middle */
         flex-direction: column;
@@ -114,9 +116,9 @@
       }
 
       .panel.open {
-        font-size: 40px;
-        /* when it has a class of open, it will take 5 times the amount of extra room  */
+        /* When given the class of open, it will take up 5 times the amount of space */
         flex: 5;
+        font-size: 40px;
       }
     </style>
 
@@ -149,19 +151,27 @@
     </div>
 
     <script>
+      // declare a constant panels and place inside a node list of all the child panels
       const panels = document.querySelectorAll(".panel");
 
+      // when this is called, toggle on (or off) the class open
       function toggleOpen() {
-        this.classlist.toggle("open");
+        console.log("Hello");
+        // classList MUST be camel case.
+        this.classList.toggle("open");
       }
-
-      function toggleActive() {
+      // when this is called, if a property of the object it is referencing includes flex, toggle on (or off) the class open-active.
+      function toggleActive(e) {
         if (e.propertyName.includes("flex")) {
-          this.classlist.toggle();
+          this.classList.toggle("open-active");
         }
       }
+
       // we don't add parens for toggleOpen function because that would mean to load on page load.
+      // for each panel in panels constant (this is the node list), on click, call toggleOpen
       panels.forEach((panel) => panel.addEventListener("click", toggleOpen));
+
+      // forEach panel in panels, at the end of the transition, call toggleActive
       panels.forEach((panel) =>
         panel.addEventListener("transitionend", toggleActive)
       );
