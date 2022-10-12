@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <script>
+      // grab our canvas by id draw
+      const canvas = document.querySelector("#draw");
+      // set the context as 2d (as opposed to 3s)
+      const ctx = canvas.getContext("2d");
+      // set the height and width of the canvas to be the size of the window
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // which color do we start with
+      ctx.strokeStyle = "#69a357";
+      // when a line is capped or joined, what shape should it be?
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.lineWidth = 100;
+
+      // we only want to draw when mousedown.
+      // so, we have created a flag with isDrawing where when we let go, its false. when we click down, it's true
+      let isDrawing = false;
+      // We need to know where we start drawing from and where we end drawing from.
+      let lastX = 0;
+      let lastY = 0;
+      let hue = 0;
+      let direction = true;
+
+      function draw(e) {
+        // this will stop the fn from running when they are not moused down
+        if (!isDrawing) return;
+
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        // ctx is where we do all of our drawing
+        ctx.beginPath();
+        // start from
+        ctx.moveTo(lastX, lastY);
+        //move to
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        //ES6 way to update multiple variables
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+
+        hue++;
+        if (hue >= 360) {
+          hue = 0;
+        }
+        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+          direction = !direction;
+        }
+
+        if (direction) {
+          ctx.lineWidth++;
+        } else {
+          ctx.lineWidth--;
+        }
+      }
+      // if mouse is down, isDrawing is true, so run the functionality inside draw
+      canvas.addEventListener("mousedown", (e) => {
+        isDrawing = true;
+        // as soon as they click their mouse to start, before we mouse move, set lastX and lastY to those values
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+
+      // when the mouse is moving, call the draw function
+      canvas.addEventListener("mousemove", draw);
+      // if mouse is up, isDrawing is false, so just return out and don't run the functionality inside draw
+      canvas.addEventListener("mouseup", () => (isDrawing = false));
+      //   if the mouse goes off the page, isDrawing is false
+      canvas.addEventListener("mouseout", () => (isDrawing = false));
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
+</html>
