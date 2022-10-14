@@ -1,0 +1,66 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<html>
+  <head> </head>
+  <body>
+    <style>
+      html {
+        background: rgb(74, 107, 74);
+        font-family: sans-serif;
+        font-size: 20px;
+      }
+
+      .inbox {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 300;
+        height: 500px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        padding: 50px;
+      }
+
+      .chkbox {
+        flex: 1;
+        border-bottom: 10px;
+      }
+    </style>
+    <div class="inbox">
+      <input type="checkbox" id="id_chk1" class="chkbox" value="1" />Check 1<br />
+      <input type="checkbox" id="id_chk2" class="chkbox" value="2" />Check 2<br />
+      <input type="checkbox" id="id_chk3" class="chkbox" value="3" />Check 3<br />
+      <input type="checkbox" id="id_chk4" class="chkbox" value="4" />Check 4<br />
+      <input type="checkbox" id="id_chk5" class="chkbox" value="5" />Check 5<br />
+      <input type="checkbox" id="id_chk6" class="chkbox" value="6" />Check 6<br />
+      <input type="checkbox" id="id_chk7" class="chkbox" value="7" />Check 7<br />
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        var $chkboxes = $(".chkbox");
+        var lastChecked = null;
+
+        $chkboxes.click(function (e) {
+          if (!lastChecked) {
+            lastChecked = this;
+            return;
+          }
+
+          if (e.shiftKey) {
+            var start = $chkboxes.index(this);
+            var end = $chkboxes.index(lastChecked);
+
+            $chkboxes
+              .slice(Math.min(start, end), Math.max(start, end) + 1)
+              .prop("checked", lastChecked.checked);
+          }
+
+          lastChecked = this;
+        });
+      });
+    </script>
+  </body>
+</html>
