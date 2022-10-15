@@ -13,8 +13,14 @@
         <div class="progress">
           <div class="progress__filled"></div>
         </div>
+
         <button class="player__button toggle" title="Toggle Play">►</button>
         <!-- step is the notch between min and max (20 notches)-->
+
+        <div class="player_time">
+          <span class="current">0:00</span> / <span class="duration">0:00</span>
+        </div>
+
         <input
           type="range"
           name="volume"
@@ -36,6 +42,8 @@
 
         <button data-skip="-10" class="player__button">« 10s</button>
         <button data-skip="10" class="player__button">10s »</button>
+
+        <button class="fullScreen">Full Screen</button>
       </div>
     </div>
 

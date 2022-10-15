@@ -1,13 +1,19 @@
+/////////////////////////////////////
 // Get our Elements
-
+const myDocument = document.documentElement;
 const player = document.querySelector(".player");
+const playerControls = player.querySelector(".player__controls");
 const video = player.querySelector(".viewer");
 const progress = player.querySelector(".progress");
 const progressBar = player.querySelector(".progress__filled");
 const toggle = player.querySelector(".toggle");
 const skipButtons = player.querySelectorAll("[data-skip]");
 const ranges = player.querySelectorAll(".player__slider");
+const currentTimeElement = player.querySelector(".current");
+const durationTimeElement = player.querySelector(".duration");
+const fullScreen = player.querySelector(".fullScreen");
 
+///////////////////////////////////////
 // Build our functions
 let isPlaying = false;
 
@@ -17,6 +23,17 @@ function togglePlay() {
     isPlaying = !isPlaying;
   } else {
     video.pause();
+    isPlaying = !isPlaying;
+  }
+}
+
+// added functionality for hitting the "p" key to play or pause
+function togglePlayKey(e) {
+  if (e.key === "p" && isPlaying === true) {
+    video.pause();
+    isPlaying = !isPlaying;
+  } else if (e.key === "p" && isPlaying === false) {
+    video.play();
     isPlaying = !isPlaying;
   }
 }
@@ -50,13 +67,45 @@ function scrub(e) {
   video.currentTime = scrubTime;
 }
 
+// Added the current time and duration apart from video
+function currentTime() {
+  let currentMinutes = Math.floor(video.currentTime / 60);
+  let currentSeconds = Math.floor(video.currentTime - currentMinutes * 60);
+  let durationMinutes = Math.floor(video.duration / 60);
+  let durationSeconds = Math.floor(video.duration - durationMinutes * 60);
+
+  currentTimeElement.innerHTML = `${currentMinutes}:${currentSeconds}`;
+  durationTimeElement.innerHTML = `${durationMinutes}:${durationSeconds}`;
+}
+
+// added full screen functionality
+let isFull = false;
+function fullScreenFunction() {
+  if (fullScreen.textContent == "Full Screen" && isFull == false) {
+    player.requestFullscreen();
+    fullScreen.textContent = "Exit Full Screen";
+    console.log(playerControls);
+    isFull = true;
+    // playerControls.style.transform = "translateY(100%) translateY(-5px)";
+  } else if (fullScreen.textContent == "Exit Full Screen" && isFull == true) {
+    document.exitFullscreen();
+    fullScreen.textContent = "Full Screen";
+    isFull = false;
+    // playerControls.style.transform = "none";
+    console.log(isFull);
+  }
+}
+
+/////////////////////////////////////////
 // hook up the event listeners
 toggle.addEventListener("click", togglePlay);
 
 video.addEventListener("play", updateButton);
 video.addEventListener("pause", updateButton);
+window.addEventListener("keydown", togglePlayKey);
 video.addEventListener("click", togglePlay);
 video.addEventListener("timeupdate", handleProgress);
+video.addEventListener("timeupdate", currentTime);
 
 skipButtons.forEach((button) => button.addEventListener("click", skip));
 
@@ -69,3 +118,5 @@ progress.addEventListener("mousemove", (e) => mousedown && scrub(e));
 // upon clicking the mouse down, mousedown constant is true, so the above event listener will fire
 progress.addEventListener("mousedown", () => (mousedown = true));
 progress.addEventListener("mouseup", () => (mousedown = false));
+
+fullScreen.addEventListener("click", fullScreenFunction);
