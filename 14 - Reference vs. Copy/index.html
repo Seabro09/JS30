@@ -6,89 +6,89 @@
   </head>
   <body>
     <script>
-       // start with strings, numbers and booleans
+      // start with strings, numbers and booleans
 
-       let age = 100;
-       let age2 = age;
-       console.log(age, age2);
-       // we get 100, 100
+      let age = 100;
+      let age2 = age;
+      console.log(age, age2);
+      // we get 100, 100
 
-       age = 200;
-       console.log(age, age2);
-       // we get 200, 100.. this is because we have only updated the age variable, not age2. doesn't update the other one.
+      age = 200;
+      console.log(age, age2);
+      // we get 200, 100.. this is because we have only updated the age variable, not age2. doesn't update the other one.
 
-       let name = "Paul";
-       let name2 = name;
-       console.log(name, name2);
-       // will get Paul, Paul
+      let name = "Paul";
+      let name2 = name;
+      console.log(name, name2);
+      // will get Paul, Paul
 
-       name = "Wes";
-       console.log(name, name2);
-       // will get Wes, Paul
-       // Let's say we have an array
-       const players = ["Wes", "Sarah", "Ryan", "Poppy"];
+      name = "Wes";
+      console.log(name, name2);
+      // will get Wes, Paul
+      // Let's say we have an array
+      const players = ["Wes", "Sarah", "Ryan", "Poppy"];
 
-       // and we want to make a copy of it.
-       const team = players;
+      // and we want to make a copy of it.
+      const team = players;
 
-       console.log(players, team);
-       // You might think we can just do something like this:
-       team[3] = "Lux";
-       // players will actually update to lux. We updated team and it referenced the initial players array. It's actually not even an array, simply a reference
-       console.log(players, team);
-       // now here is the problem!
+      console.log(players, team);
+      // You might think we can just do something like this:
+      team[3] = "Lux";
+      // players will actually update to lux. We updated team and it referenced the initial players array. It's actually not even an array, simply a reference
+      console.log(players, team);
+      // now here is the problem!
 
-       // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+      // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
-       // So, how do we fix this? We take a copy instead!
-       // if we pass nothing into slice, it can make a copy of the original array
-       const team2 = players.slice();
-       team2[3] = "Mike";
-       console.log(team2, team, players);
+      // So, how do we fix this? We take a copy instead!
+      // if we pass nothing into slice, it can make a copy of the original array
+      const team2 = players.slice();
+      team2[3] = "Mike";
+      console.log(team2, team, players);
 
-       // another way using concat
-       const team3 = [].concat(players);
+      // another way using concat
+      const team3 = [].concat(players);
 
-       // or use the ES6 spread operator
-       const team4 = [...players];
+      // or use the ES6 spread operator
+      const team4 = [...players];
 
-       // could use .from ...
-       const team5 = Array.from(players);
+      // could use .from ...
+      const team5 = Array.from(players);
 
-       // The same thing goes for objects, let's say we have a person object
+      // The same thing goes for objects, let's say we have a person object
 
-       // with Objects
-       const person = {
-         name: "Wes Bos",
-         age: 80,
-       };
+      // with Objects
+      const person = {
+        name: "Wes Bos",
+        age: 80,
+      };
 
-       // and think we make a copy:
-       const captain = person;
-       captain.name = "Mike";
-       // will actually have person as a value for the name key/property of person
-       console.log(person, captain);
+      // and think we make a copy:
+      const captain = person;
+      captain.name = "Mike";
+      // will actually have person as a value for the name key/property of person
+      console.log(person, captain);
 
-       // how do we take a copy instead?
-       // we can use Object.assign.
-       // it takes the empty object as the first argument, what you want to copy as the second, and what to fold in as the third, fourth, etc.
-       const captain2 = Object.assign(
-         {},
-         person,
-         { number: 99 },
-         { name: "Paul" }
-       );
+      // how do we take a copy instead?
+      // we can use Object.assign.
+      // it takes the empty object as the first argument, what you want to copy as the second, and what to fold in as the third, fourth, etc.
+      const captain2 = Object.assign(
+        {},
+        person,
+        { number: 99 },
+        { name: "Paul" }
+      );
 
-       console.log(person, captain, captain2);
-       // We will hopefully soon see the object ...spread
+      console.log(person, captain, captain2);
+      // We will hopefully soon see the object ...spread
 
-       // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
-       // only one level deep, meaning if we wanted to use Object.Assign to create a new object that had an object...
-       // if we were to go into that second object and make a change, it would actually update the first object.
+      // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+      // only one level deep, meaning if we wanted to use Object.Assign to create a new object that had an object...
+      // if we were to go into that second object and make a change, it would actually update the first object.
 
       //cloneDeep is an option, or you can...
       const dev = Object.assign({}, person);
-      const dev2 = JSON.parse(JSON.stringify(person);
+      const dev2 = JSON.parse(JSON.stringify(person));
     </script>
   </body>
 </html>
