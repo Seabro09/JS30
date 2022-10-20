@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
+
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
+
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
+
+    <script>
+      // inside the document, grab the div element with class hero
+      const hero = document.querySelector(".hero");
+      // inside the div element of class hero, grab our text element h1
+      const text = hero.querySelector("h1");
+      // the walk - how many pixels at most should the content be stretched when going to the far corners of your window.
+      const walk = 100; // 100px
+
+      function shadow(e) {
+        const width = hero.offsetWidth;
+        const height = hero.offsetHeight;
+        // below is the normal way to setup these constants.
+        // const x = e.offsetX;
+        // const y = e.offsetY;
+        // ES6 variable destructuring
+        // using let because we will reassign
+        let { offsetX: x, offsetY: y } = e;
+        // if we want the shadow to work on the h1 and not the hero, we have to normalize
+        // this is the div element with class hero
+        // the target is the thing the event was triggered on
+        // if those two things are not the same..
+        if (this != e.target) {
+          // add x to however many pixels from left, and add y to however many pixels from top
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+        }
+        // we will go between +50 and -50 (100)
+
+        const xWalk = Math.round((x / width) * walk - walk / 2);
+        const yWalk = Math.round((y / height) * walk - walk / 2);
+
+        text.style.textShadow = `${xWalk}px ${yWalk}px 0 rgba(0, 0 ,0 , 0.5)`;
+      }
+
+      hero.addEventListener("mousemove", shadow);
+    </script>
+  </body>
+</html>
