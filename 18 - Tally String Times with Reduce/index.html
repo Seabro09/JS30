@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Videos</title>
+  </head>
+  <body>
+    <ul class="videos">
+      <li data-time="5:43">Video 1</li>
+      <li data-time="2:33">Video 2</li>
+      <li data-time="3:45">Video 3</li>
+      <li data-time="0:47">Video 4</li>
+      <li data-time="5:21">Video 5</li>
+      <li data-time="6:56">Video 6</li>
+      <li data-time="3:46">Video 7</li>
+      <li data-time="5:25">Video 8</li>
+      <li data-time="3:14">Video 9</li>
+      <li data-time="3:31">Video 10</li>
+      <li data-time="5:59">Video 11</li>
+      <li data-time="3:07">Video 12</li>
+      <li data-time="11:29">Video 13</li>
+      <li data-time="8:57">Video 14</li>
+      <li data-time="5:49">Video 15</li>
+      <li data-time="5:52">Video 16</li>
+      <li data-time="5:50">Video 17</li>
+      <li data-time="9:13">Video 18</li>
+      <li data-time="11:51">Video 19</li>
+      <li data-time="7:58">Video 20</li>
+      <li data-time="4:40">Video 21</li>
+      <li data-time="4:45">Video 22</li>
+      <li data-time="6:46">Video 23</li>
+      <li data-time="7:24">Video 24</li>
+      <li data-time="7:12">Video 25</li>
+      <li data-time="5:23">Video 26</li>
+      <li data-time="3:34">Video 27</li>
+      <li data-time="8:22">Video 28</li>
+      <li data-time="5:17">Video 29</li>
+      <li data-time="3:10">Video 30</li>
+      <li data-time="4:43">Video 31</li>
+      <li data-time="19:43">Video 32</li>
+      <li data-time="0:47">Video 33</li>
+      <li data-time="0:47">Video 34</li>
+      <li data-time="3:14">Video 35</li>
+      <li data-time="3:59">Video 36</li>
+      <li data-time="2:43">Video 37</li>
+      <li data-time="4:17">Video 38</li>
+      <li data-time="6:56">Video 39</li>
+      <li data-time="3:05">Video 40</li>
+      <li data-time="2:06">Video 41</li>
+      <li data-time="1:59">Video 42</li>
+      <li data-time="1:49">Video 43</li>
+      <li data-time="3:36">Video 44</li>
+      <li data-time="7:10">Video 45</li>
+      <li data-time="3:44">Video 46</li>
+      <li data-time="3:44">Video 47</li>
+      <li data-time="4:36">Video 48</li>
+      <li data-time="3:16">Video 49</li>
+      <li data-time="1:10">Video 50</li>
+      <li data-time="6:10">Video 51</li>
+      <li data-time="2:14">Video 52</li>
+      <li data-time="3:44">Video 53</li>
+      <li data-time="5:05">Video 54</li>
+      <li data-time="6:03">Video 55</li>
+      <li data-time="12:39">Video 56</li>
+      <li data-time="1:56">Video 57</li>
+      <li data-time="4:04">Video 58</li>
+    </ul>
+    <script>
+      // we want to add up all of the times.
+      // We want to use reduce method
+
+      // we want not just the list items, but anything with the [data-time] attribute
+      // convert from Node List to an array using Array.from()
+      const timeNodes = Array.from(document.querySelectorAll("[data-time"));
+
+      //   declare a variable seconds and set it equal to mapping timeNodes to be the times of each list item
+      //   then... map that to be it's own variables using destructuring and by spliting the timeCode where the ":" is
+      // then.. we want those strings to be numbers, so we map each str and parseFloat it to a number
+      // finally, we reduce that and add each element of the array to a total and return that out.
+      const seconds = timeNodes
+        .map((node) => {
+          return node.dataset.time;
+        })
+        .map((timeCode) => {
+          const [mins, secs] = timeCode.split(":").map(parseFloat);
+          return mins * 60 + secs;
+        })
+        .reduce((total, vidSeconds) => {
+          return total + vidSeconds;
+        });
+      // this variable is sort of an accumulator of how many seconds we have left
+      let secondsLeft = seconds;
+      console.log(secondsLeft);
+
+      // to take our seconds and convert them to whole hours we do the following:
+      //   we get our hours by doing seconds divided by 3600 but then we floor that to round down to the whole number
+      const hours = Math.floor(seconds / 3600);
+      // the percent, or mod, is the remainder after divding by 3600
+      secondsLeft = secondsLeft % 3600;
+      console.log(secondsLeft);
+      // do the same thing as above but for the minutes by dividing by 60
+      const mins = Math.floor(secondsLeft / 60);
+      //again, get our secondsLeft
+      secondsLeft = secondsLeft % 60;
+      console.log(`${hours}:${mins}:${secondsLeft}`);
+    </script>
+  </body>
+</html>

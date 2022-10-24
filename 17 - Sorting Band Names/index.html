@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sort Without Articles</title>
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #results {
+        list-style: inside square;
+        font-size: 20px;
+        background: white;
+        width: 500px;
+        margin: auto;
+        padding: 0;
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      #results li {
+        border-bottom: 1px solid #efefef;
+        padding: 20px;
+      }
+
+      #results li:last-child {
+        border-bottom: 0;
+      }
+
+      a {
+        color: #ffc600;
+        text-decoration: none;
+      }
+    </style>
+
+    <ul id="results"></ul>
+
+    <script>
+      // below was my first attempt at this challenge
+      // was able to complete it, however, the articles weren't added back
+      const myList = document.getElementById("results");
+
+      const bands = [
+        "The Plot in You",
+        "The Devil Wears Prada",
+        "Pierce the Veil",
+        "Norma Jean",
+        "The Bled",
+        "Say Anything",
+        "The Midway State",
+        "We Came as Romans",
+        "Counterparts",
+        "Oh, Sleeper",
+        "A Skylit Drive",
+        "Anywhere But Here",
+        "An Old Dog",
+      ];
+
+      function removeArticles(array) {
+        const newArray = [];
+        // split out each element of the array into it's own array of elements
+        array.forEach((element) => {
+          words = element.split(" ");
+          for (let i = 0; i < words.length; i++) {
+            if (words[i] == "A" || words[i] == "The" || words[i] == "An") {
+              words.shift();
+            }
+          }
+          newArray.push(words.join(" "));
+        });
+        return newArray.sort();
+      }
+
+      function populateList(bands = [], bandsList) {
+        bandsList.innerHTML = bands
+          .map((band) => {
+            return `<li>${band}</li>`;
+          })
+          .join(" ");
+      }
+      const sortedBands = removeArticles(bands);
+
+      console.log(sortedBands);
+      console.log(results);
+
+      populateList(sortedBands, myList);
+
+      //
+    </script>
+  </body>
+</html>
