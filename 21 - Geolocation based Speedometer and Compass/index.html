@@ -95,6 +95,25 @@
       }
       /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
     </style>
-    <script></script>
+    <script>
+      // grab the svg of class arrow
+      const arrow = doucment.querySelector(".arrow");
+
+      // grab our header of class speed
+      const speed = document.querySelector(".speed-value");
+
+      // watch position gives us data over time
+      navigator.geolocation.watchPosition(
+        (data) => {
+          // take the speed from the data being given and put it into the text Content of the header of class speed. We can round this if we want
+          speed.textContent = data.coords.speed;
+          // this is a css style transform that we are adding. Simply rotating that element as many degrees as given by the header in the data.
+          arrow.style.transform = `rotate(${data.coords.heading}deg)`;
+        },
+        (err) => {
+          alert("HEY!, YOU GOTTA ALLOW THAT TO HAPPEN!"); // error message callback function if error occurs when using the Geolocation device.
+        }
+      );
+    </script>
   </body>
 </html>
