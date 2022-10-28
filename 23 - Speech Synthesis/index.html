@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Speech Synthesis</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="voiceinator">
+      <h1>The Voiceinator 5000</h1>
+
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate:</label>
+      <input name="rate" type="range" min="0" max="3" value="1" step="0.1" />
+
+      <label for="pitch">Pitch:</label>
+
+      <input name="pitch" type="range" min="0" max="2" step="0.1" />
+      <textarea name="text">
+        Paul is just the coolest dude 👍 Mac is simply a 💩</textarea
+      >
+      <button id="stop">Stop!</button>
+      <button id="speak">Speak</button>
+    </div>
+
+    <script>
+      // represents a new speech request
+      // contains the content the speech service should read and info about how to read it
+      const msg = new SpeechSynthesisUtterance();
+      // empty array which out voices will be dropped into
+      let voices = [];
+      // grab the dropdown
+      const voicesDropdown = document.querySelector('[name="voice"]');
+      // grab the range and text and add them to options constant
+      const options = document.querySelectorAll(
+        '[type="range"], [name="text"]'
+      );
+      // grab speak id for speak button
+      const speakButton = document.querySelector("#speak");
+      // grab stop id for stop button
+      const stopButton = document.querySelector("#stop");
+
+      // pull the value of the text from the textarea and put it in msg.text
+      msg.text = document.querySelector('[name="text"]').value;
+      //   console.log(msg.text);
+
+      // populate the voicesDropdown with the different options you get from speechSynthesis
+      function populateVoices() {
+        // voices is equal to "this" (speechSynthesis)  .getVoices()
+        // the voices are the different voice sounds a machine (or browser) will come with.
+        voices = this.getVoices();
+        // map each voice and put it in a constanst with the voice.name and the voice.lang as an option
+        const voiceOptions = voices
+          // could add a filter here to filter for only english
+          .map(
+            (voice) =>
+              `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
+          )
+          .join("");
+        // put that option in the innerHTML of the voicesDropdown
+        voicesDropdown.innerHTML = voiceOptions;
+      }
+
+      function setVoice() {
+        // loop through every voice in the voices array, and find the one that the name attribute is the same as the option
+        msg.voice = voices.find((voice) => voice.name === this.value);
+        toggle();
+      }
+
+      // every time we change it, it will stop and start over
+      // pass in startOver variable and set it to true first. (can always call it false to start later)
+      function toggle(startOver = true) {
+        // stop it from speaking
+        speechSynthesis.cancel();
+        // if startOver is true, call this function
+        if (startOver) {
+          speechSynthesis.speak(msg);
+        }
+      }
+
+      function setOption() {
+        console.log(this.name, this.value);
+        console.log(msg);
+        // upon a change in the element, set the value of the name to what it is that it landed on.
+        msg[this.name] = this.value;
+        toggle();
+      }
+
+      // on click, toggle function but pass in startOver as false so that it stops.
+      function stopSpeak() {
+        toggle((startOver = false));
+      }
+
+      // add an event listener to the globalvariable speechSynthesis
+      speechSynthesis.addEventListener("voiceschanged", populateVoices);
+      voicesDropdown.addEventListener("change", setVoice);
+
+      options.forEach((option) => {
+        option.addEventListener("change", setOption);
+      });
+
+      speakButton.addEventListener("click", toggle);
+      stopButton.addEventListener("click", stopSpeak);
+    </script>
+  </body>
+</html>
