@@ -270,6 +270,32 @@
       </p>
     </div>
 
-    <script></script>
+    <script>
+      // we want that when we scroll down, the nav sticks with us
+
+      // grab the nav of id main
+      const nav = document.querySelector("#main");
+      // the topOfNav constant how far the top of the nav is from the to of windo
+      const topOfNav = nav.offsetTop;
+
+      function fixNav() {
+        // if the window scroll is greater than or equal to topOfNav, add a class  to the body
+        // we could do the nav, but we do it on the body because that let's us target any of the children
+        if (window.scrollY >= topOfNav) {
+          // we must add padding to the body to offset the jump that occurs when the fixed-nav class is added. To see what I am talking about, remove this line of code.
+          // offsetHeight is the height of our nav
+          document.body.style.paddingTop = nav.offsetHeight + "px";
+          // add it if greater than or equal to
+          document.body.classList.add("fixed-nav");
+        } else if (window.scrollY < topOfNav) {
+          // must remove our padding
+          document.body.style.paddingTop = 0;
+          // remove it if less than
+          document.body.classList.remove("fixed-nav");
+        }
+        console.log(topOfNav);
+      }
+      window.addEventListener("scroll", fixNav);
+    </script>
   </body>
 </html>

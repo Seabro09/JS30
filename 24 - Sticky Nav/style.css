@@ -27,6 +27,10 @@ body {
   transition: transform 0.5s;
 }
 
+.fixed-nav .site-wrap {
+  transform: scale(1);
+}
+
 header {
   text-align: center;
   height: 50vh;
@@ -52,6 +56,12 @@ nav {
   position: relative;
   z-index: 1;
 }
+/* when the body has a class of fixed-nav, the nav itself will have this styling */
+
+.fixed-nav nav {
+  position: fixed;
+  box-shadow: 0 5px rgba(0, 0, 0, 0.1);
+}
 
 nav ul {
   margin: 0;
@@ -72,9 +82,15 @@ li.logo {
   max-width: 0;
   overflow: hidden;
   background: white;
-  transition: all 0.5s;
+  transition: all 0.5s; /* this is the transition for when the logo appears on scroll */
   font-weight: 600;
   font-size: 30px;
+}
+
+/* when the body has a class of fixed-nav, give the li.logo a max widht of 500px */
+
+.fixed-nav li.logo {
+  max-width: 500px;
 }
 
 li.logo a {
