@@ -45,8 +45,9 @@
       function displayMatches() {
         // it's good that we now have our data. Once we get our data and functionality in place, we can then add our eventListeners and hook it up to our HTML
         // this.value is whatever was put into search input
+        console.log(this.value);
         const matchArray = findMatches(this.value, cities);
-        console.log(matchArray);
+        //console.log(matchArray);
         // declare a const heml and set it equal to what ever is returned to matchArray mapped out to those list items
         const html = matchArray
           .map((place) => {
