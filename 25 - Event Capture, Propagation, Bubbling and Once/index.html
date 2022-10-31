@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+
+    <button></button>
+    <script>
+      // select all divs on the page
+      const divs = document.querySelectorAll("div");
+      const button = document.querySelector("button");
+
+      // log out the classes on the this (div);
+      // when we click on the three, we will log out all three classes
+      // this is called bubbling - the browser will trigger clicks up through the document
+
+      function logText(e) {
+        console.log(this.classList.value);
+        // stopPropagation will stop the bubbling. It will only log out the class the event listener (click) pertains to;
+        // if we set true to capture, we will only get bod because it starts at the top and logs that top class and stops because it isn't capturing down anymore.
+        //e.stopPropagation();
+      }
+
+      // now that there is an event listener regarding the body with class bod, it will not log if we click the innermost div. Again, this is bubbling
+      // triggers clicks on all of those, we don't see them sometimes because we are not always listening for them
+      // capture starts from top (body) and then actually goes to the bottom, then it starts to bubble up and perform actions on each one.
+      //document.body.addEventListener("click", logText);
+
+      // remember, when you have muliple elements selected, you MUST use forEach
+      divs.forEach((div) =>
+        div.addEventListener("click", logText, {
+          // the capture: true option will make the bubble happen on caption down instead of the default bubble up.  It will log the classes opposite
+          capture: false,
+          // the once: true option listens for a click once, then unbinds itself so that the event cannot occur again (cannot click anymore)
+          once: true,
+        })
+      );
+
+      // will only be allowed to click once and then will unbind
+      // this is good for a store checkout button where we don't want them to click it more than once
+      button.addEventListener(
+        "click",
+        () => {
+          console.log("click!!");
+        },
+        {
+          once: true,
+        }
+      );
+    </script>
+  </body>
+</html>
