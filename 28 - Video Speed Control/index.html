@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Speed Scrubber</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <video
+        class="flex"
+        width="765"
+        height="430"
+        src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+        loop
+        controls
+      ></video>
+      <div class="speed">
+        <div class="speed-bar">1×</div>
+      </div>
+    </div>
+
+    <script>
+      // experiment with a different input for video speed
+
+      const speed = document.querySelector(".speed");
+      const bar = document.querySelector(".speed-bar");
+      const video = document.querySelector(".flex");
+
+      speed.addEventListener("mousemove", function (e) {
+        // we want the pageY of the event, but we can't assume that this div will be the top most element, we must account for it and offset it.
+        const y = e.pageY - this.offsetTop;
+        // percent is equal to y (where we are mousemoving) divided by this.offsetTop (the height of the div)
+        const percent = y / this.offsetHeight;
+        console.log(`Y is ${y} while percent is ${percent}`);
+
+        // min and max
+        const min = 0.4;
+        const max = 4;
+
+        // height is equal to the actual percentage. multiply percent by 100 and round it up, then tack on the percent symbol
+        const height = Math.round(percent * 100) + "%";
+        //console.log(height);
+        // .5 * (4 - .4) + .4
+        const playbackRate = percent * (max - min) + min;
+        bar.style.height = height;
+        // make the text content on the speed bar div to be the playback rate to the only 2 decimals
+        bar.textContent = playbackRate.toFixed(2) + "x";
+        video.playbackRate = playbackRate;
+      });
+    </script>
+  </body>
+</html>
